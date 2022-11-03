@@ -4,17 +4,26 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
+import loggerMiddleware from "./lib/loggerMiddleware";
+import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 //store를 만들기 위한 createStore(redux) * redux toolkit에 더 나은 방법 존재
+//applyMiddleware를 통해 미들웨어 추가 가능
 
 import { counter } from './modules/counter';
 //store에 추가할 counter state와 action
 import { rootReducer } from './modules';
 //rootReducer를 통해 리듀서들을 한번에 묶어서 사용
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 // createStore를 이용하여 store 생성
+//라이브러리를 통한 미들웨어 사용
+
+const store2 = createStore(rootReducer, applyMiddleware(loggerMiddleware));
+//미들웨어를 직접 만들어 사용
+
 
 // redux 과정
 // 1. store 생성
